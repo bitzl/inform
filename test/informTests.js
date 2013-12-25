@@ -167,4 +167,105 @@ suite('inform', function () {
       });
     });
   });
+
+  suite('errors', function() {
+    test('throws an exception when you leave the user out', function() {
+      assert.that(function() {
+        /*jshint -W031 */
+        new inform.ErrorMessage(
+          undefined,
+          '35159e3b-2b16-42e8-b452-c8914d2011e1',
+          '9ffac53a-b9b9-4001-a8a2-5ecaaf2aed05'
+        );
+      }, is.throwing());
+    });
+
+    test('throws an exception when you leave the channel out', function() {
+      assert.that(function() {
+        /*jshint -W031 */
+        new inform.ErrorMessage(
+          '3d0b9a48-8ec9-43fe-b8e2-99eadfa7d8c3',
+          undefined,
+          'f8366188-2726-4eed-aeb1-59379dc92bae'
+        );
+      }, is.throwing());
+    });
+
+    test('throws an exception when you leave the message out', function() {
+      assert.that(function() {
+        /*jshint -W031 */
+        new inform.ErrorMessage(
+          '3d0b9a48-8ec9-43fe-b8e2-99eadfa7d8c3',
+          'f8366188-2726-4eed-aeb1-59379dc92bae',
+          undefined
+        );
+      }, is.throwing());
+    });
+
+    test('constructor sets the user', function() {
+      var error = new inform.ErrorMessage(
+        '0241f1f3-0245-41cd-a41d-b0de574ffa27',
+        '3821116e-affa-41e5-b458-1c81d20825fb',
+        '09d78042-9b6f-4935-a89f-c58b88587b48'
+      );
+      assert.that(error.user, is.equalTo('0241f1f3-0245-41cd-a41d-b0de574ffa27'));
+    });
+
+    test('constructor sets the channel', function() {
+      var error = new inform.ErrorMessage(
+        '0241f1f3-0245-41cd-a41d-b0de574ffa27',
+        '3821116e-affa-41e5-b458-1c81d20825fb',
+        '09d78042-9b6f-4935-a89f-c58b88587b48'
+      );
+      assert.that(error.channel, is.equalTo('3821116e-affa-41e5-b458-1c81d20825fb'));
+    });
+      
+    test('constructor sets the message', function() {
+      var error = new inform.ErrorMessage(
+        '0241f1f3-0245-41cd-a41d-b0de574ffa27',
+        '3821116e-affa-41e5-b458-1c81d20825fb',
+        '09d78042-9b6f-4935-a89f-c58b88587b48'
+      );
+      assert.that(error.message, is.equalTo('09d78042-9b6f-4935-a89f-c58b88587b48'));
+    });
+      
+    test('constructor sets the error code', function() {
+      var error = new inform.ErrorMessage(
+        '0241f1f3-0245-41cd-a41d-b0de574ffa27',
+        '3821116e-affa-41e5-b458-1c81d20825fb',
+        '09d78042-9b6f-4935-a89f-c58b88587b48',
+        { code: '34234a88-eab5-4dc3-a727-8cf070fdb706' }
+      );
+      assert.that(error.more.code, is.equalTo('34234a88-eab5-4dc3-a727-8cf070fdb706'));
+    });
+      
+    test('constructor sets the actual time', function() {
+      var error = new inform.ErrorMessage(
+        '0241f1f3-0245-41cd-a41d-b0de574ffa27',
+        '3821116e-affa-41e5-b458-1c81d20825fb',
+        '09d78042-9b6f-4935-a89f-c58b88587b48'
+      );
+      var now = new Date().getTime();
+      assert.that(error.timestamp, is.between(now - 100, now + 100));
+    });
+
+    test('constructor takes timestamp from "more" object', function() {
+      var error = new inform.ErrorMessage(
+        '0241f1f3-0245-41cd-a41d-b0de574ffa27',
+        '3821116e-affa-41e5-b458-1c81d20825fb',
+        '09d78042-9b6f-4935-a89f-c58b88587b48',
+        { timestamp : 4728947298924}
+      );
+      assert.that(error.timestamp, is.equalTo(4728947298924));
+    });
+
+    test('more is usually undefined', function() {
+      var error = new inform.ErrorMessage(
+        '0241f1f3-0245-41cd-a41d-b0de574ffa27',
+        '3821116e-affa-41e5-b458-1c81d20825fb',
+        '09d78042-9b6f-4935-a89f-c58b88587b48'
+      );
+      assert.that(error.more, is.equalTo(undefined));
+    });
+  });
 });
