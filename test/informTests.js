@@ -54,7 +54,28 @@ suite('inform', function () {
     }, is.throwing());
   });
 
-  test('actually sends …');
+  test('actually sends.', function (done) {
+    var sendCounter = 0;
+
+    inform.use('1a6f827f-5010-41ee-bd95-d636e36c61a7', {
+      send: function (recipient, message, callback) {
+        sendCounter++;
+        callback();
+      }
+    });
+
+    inform.define('b3e982c1-3e9c-4149-9d3e-8a5e040468ac', {
+      '1a6f827f-5010-41ee-bd95-d636e36c61a7': { foo: 'bar' }
+    });
+
+    inform('b3e982c1-3e9c-4149-9d3e-8a5e040468ac', {
+      '1a6f827f-5010-41ee-bd95-d636e36c61a7': 'some message'
+    }, function (err) {
+      assert.that(err, is.null());
+      assert.that(sendCounter, is.equalTo(1));
+      done();
+    });
+  });
 
   suite('use', function () {
     test('is a function.', function () {
