@@ -63,7 +63,7 @@ inform.define('users', [
 
 Please note that you can arbitrarily mix user and group names within the members of a group, i.e. a group can contain other groups. This way you are able to easily build up complex systems of users and groups.
 
-### Notifying user
+### Notifying users
 
 To notify a user or a group of users, call the `inform` function itself and provide the name of the user or group you would like to communicate with and an object that contains the message data for the channels you would like to use.
 
