@@ -77,6 +77,12 @@ suite('inform', function () {
     });
   });
 
+  suite('channels', function () {
+    test('supports Twilio.', function () {
+      assert.that(inform.twilio, is.ofType('function'));
+    });
+  });
+
   suite('use', function () {
     test('is a function.', function () {
       assert.that(inform.use, is.ofType('function'));
